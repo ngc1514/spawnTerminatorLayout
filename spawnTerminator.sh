@@ -24,7 +24,6 @@ if [[ "$#" = 0 ]] || [[ "$#" > 2 ]]; then
 elif [[ "$#" = 1 ]] || [[ "$#" = 2 ]]; then
 
 	# set env var boxName in .zshenv and source the file
-	echo "argument is: $boxNameArg"
 	sed -i "s/boxName=.*/boxName=$boxNameArg/g" ~/.zshenv
 	source ~/.zshenv
 	echo "New boxName: $boxName"
