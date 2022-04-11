@@ -21,18 +21,17 @@ boxIPArg=$2
 
 
 function spawning() {
-	DIR="~/HTB/$boxName"
-	echo "spawning: $DIR"
+	boxDir="$HOME/HTB/$boxName"
+	echo "spawning: $boxDir"
 
 	# Directory exists, CD to that dir
-	if [ -d "$DIR" ]; then
-		echo "Directory $Dir exists. Changine directory."
+	if [ -d "$boxDir" ]; then
+		echo "Directory ${boxDir} already exists. Changine directory."
 	else
-		echo "Creating directory ~/HTB/$boxName"
-		mkdir ~/HTB/$boxName
+		echo "Creating directory $boxDir"
+		mkdir -p $boxDir
 	fi
-
-	echo "Spawning layout htb for $boxName"
+	echo "Spawning layout htb for \"$boxName\"..."
 	terminator -l htb
 }
 
