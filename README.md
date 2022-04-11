@@ -1,7 +1,7 @@
 # spawnTerminatorLayout
 Spawn your Terminator layout for HackTheBox/OSCP/pentesting
 
-## Pre-req
+### Pre-req
 1) Terminator is installed. If not <br>
 ```
 $ sudo apt update
@@ -34,7 +34,7 @@ $ chmod +x spawnHTB.sh
 <br>
 
 
-## Run script to create corresponding directory and spawn new layout
+### Run script to create corresponding directory and spawn new layout
 Examples: 
 ```
 ./spawnHTB.sh <some_box_name> 
@@ -43,7 +43,7 @@ OR
 ```
 <br>
 
-## Modifying the script
+### Modifying the script
 Ln 17
 ```
 terminator -l htb
