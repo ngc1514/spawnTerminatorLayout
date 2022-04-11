@@ -7,8 +7,11 @@ Spawn your Terminator layout for HackTheBox/OSCP/pentesting
 $ sudo apt update
 $ sudo apt install terminator
 ```
+<br>
 
-2) Have a layout already created. If not, create a Terminator layout your like, and save it. 
+2) **Have a layout already created.** If not, create a Terminator layout your called "htb". <br>
+For custom names, see: [Modifying the script](#modifying-the-script)
+<br>
 
 3) Set up key for a new environment variable called "boxName" in your zshenv file.
 
@@ -22,11 +25,14 @@ $ echo -en "\nexport boxName=\n" >> ~/.zshenv
 # source the file
 $ source ~/.zshenv
 ```
+<br>
 
 4) Make script executable
 ```
 $ chmod +x spawnHTB.sh
 ```
+<br>
+
 
 ## Run script to create corresponding directory and spawn new layout
 Examples: 
@@ -35,7 +41,7 @@ Examples:
 OR
 ./spawnHTB.sh <some_box_name> -y
 ```
-
+<br>
 
 ## Modifying the script
 Ln 17
