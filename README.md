@@ -45,7 +45,7 @@ Change "htb" to the name of your layout. <br>
 
 Ln 24
 ```
-DIR="~/HTB/$boxName"
+boxDir="$HOME/HTB/$boxName"
 ```
 Change it to your own path.
 <br>
