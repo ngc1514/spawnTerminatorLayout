@@ -6,6 +6,8 @@ confirm=$2
 function spawning() {
 	DIR="~/HTB/$boxName"
 	echo "spawning: $DIR"
+
+	# Directory exists, CD to that dir
 	if [ -d "$DIR" ]; then
 		echo "Directory $Dir exists. Changine directory."
 	else
@@ -17,12 +19,13 @@ function spawning() {
 	terminator -l htb
 }
 
+# Usage message
 if [[ "$#" = 0 ]] || [[ "$#" > 2 ]]; then
 	echo -e "Example 1: ./spawnHTB.sh yourBoxName \nExample 2: ./spawnHTB.sh yourBoxName -y \nQuitting."
 
 
+# Confirm and call spawning()  
 elif [[ "$#" = 1 ]] || [[ "$#" = 2 ]]; then
-
 	# set env var boxName in .zshenv and source the file
 	sed -i "s/boxName=.*/boxName=$boxNameArg/g" ~/.zshenv
 	source ~/.zshenv
