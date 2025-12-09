@@ -3,6 +3,39 @@
 # BSD/macOS sed requires an empty string after -i; GNU sed accepts it too.
 SED_INPLACE=("-i" "")
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG_FILE="$SCRIPT_DIR/spawnTerminator.conf"
+DEFAULT_LAYOUT_NAME="htb"
+DEFAULT_BASE_DIR="$HOME/HTB"
+
+# Create a config file with defaults if none exists, then load it.
+function loadConfig() {
+	if [ ! -f "$CONFIG_FILE" ]; then
+		cat > "$CONFIG_FILE" <<'EOF'
+# Terminator layout name to launch
+LAYOUT_NAME="htb"
+
+# Base directory where box folders will be created
+BASE_DIR="$HOME/HTB"
+EOF
+		echo "Created default config at $CONFIG_FILE. Update LAYOUT_NAME and BASE_DIR as needed."
+	fi
+
+	# shellcheck source=/dev/null
+	source "$CONFIG_FILE"
+
+	layoutName="${LAYOUT_NAME:-$DEFAULT_LAYOUT_NAME}"
+	baseDir="${BASE_DIR:-$DEFAULT_BASE_DIR}"
+
+	# Expand ~/ in BASE_DIR if used
+	baseDir="${baseDir/#\~/$HOME}"
+
+	if [ -z "$layoutName" ] || [ -z "$baseDir" ]; then
+		echo "LAYOUT_NAME and BASE_DIR must be set in $CONFIG_FILE"
+		exit 1
+	fi
+}
+
 # init env var
 if ! grep -Fq "boxName=" ~/.zshenv
 then
@@ -22,20 +55,21 @@ fi
 boxNameArg=$1
 boxIPArg=$2
 
+loadConfig
 
 function spawning() {
-	boxDir="$HOME/HTB/$boxName"
+	boxDir="$baseDir/$boxName"
 	echo "spawning: $boxDir"
 
 	# Directory exists, CD to that dir
 	if [ -d "$boxDir" ]; then
-		echo "Directory ${boxDir} already exists. Changine directory."
+		echo "Directory ${boxDir} already exists. Changing directory."
 	else
 		echo "Creating directory $boxDir"
-		mkdir -p $boxDir
+		mkdir -p "$boxDir"
 	fi
-	echo "Spawning layout htb for \"$boxName\"..."
-	terminator -l htb
+	echo "Spawning layout ${layoutName} for \"$boxName\"..."
+	terminator -l "$layoutName"
 }
 
 function quitAndReset(){
@@ -49,9 +83,9 @@ function quitAndReset(){
 
 # Usage message
 if [[ "$#" = 0 ]] || [[ "$#" > 2 ]]; then
-	echo -e "Example 1: ./spawnHTB.sh yourBoxName 
-	\nExample 2: ./spawnHTB.sh yourBoxName 
-	\nExample 3: ./spawnHTB.sh yourBoxName yourBoxIP
+	echo -e "Example 1: ./spawnTerminator.sh yourBoxName 
+	\nExample 2: ./spawnTerminator.sh yourBoxName 
+	\nExample 3: ./spawnTerminator.sh yourBoxName yourBoxIP
 	\nQuitting."
 
 
